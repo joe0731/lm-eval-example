@@ -19,6 +19,8 @@ lm-eval-example/
   docs/
     modelopt-checkpoint-eval-commands.zh-CN.md
     modelopt-checkpoint-eval-commands.en.md
+    modelopt-actual-experiment.zh-CN.md
+    modelopt-actual-experiment.en.md
     qwen35-modelopt-scenario.zh-CN.md
     qwen35-modelopt-scenario.en.md
   python/
@@ -28,12 +30,14 @@ lm-eval-example/
     run_vllm_modelopt.sh
     run_sglang_modelopt.sh
     run_modelopt_matrix.sh
+    summarize_lm_eval_results.py
     validate_tasks.sh
 ```
 
 命令 cookbook：
 
 - [ModelOpt checkpoint eval bash 示例](docs/modelopt-checkpoint-eval-commands.zh-CN.md)
+- [ModelOpt 量化产物实际实验流程](docs/modelopt-actual-experiment.zh-CN.md)
 - [Qwen3.5 多格式 ModelOpt checkpoint 测试场景](docs/qwen35-modelopt-scenario.zh-CN.md)
 
 ## 版本有效性说明

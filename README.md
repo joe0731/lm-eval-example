@@ -14,6 +14,9 @@ with `lm-evaluation-harness`.
 - Qwen3.5 ModelOpt scenario:
   [中文](docs/qwen35-modelopt-scenario.zh-CN.md) /
   [English](docs/qwen35-modelopt-scenario.en.md)
+- Practical experiment flow:
+  [中文](docs/modelopt-actual-experiment.zh-CN.md) /
+  [English](docs/modelopt-actual-experiment.en.md)
 
 The examples focus on single-process CI/CD usage. The `vllm` and `sglang`
 examples use their offline engines through `lm-eval`; they do not start a
