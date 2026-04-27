@@ -17,6 +17,9 @@ lm-eval-example/
   README.en.md
   config/
     sample_indices.json
+  docs/
+    modelopt-checkpoint-eval-commands.zh-CN.md
+    modelopt-checkpoint-eval-commands.en.md
   python/
     simple_eval_modelopt_hf.py
   scripts/
@@ -26,6 +29,10 @@ lm-eval-example/
     run_modelopt_matrix.sh
     validate_tasks.sh
 ```
+
+Command cookbook:
+
+- [ModelOpt checkpoint eval bash examples](docs/modelopt-checkpoint-eval-commands.en.md)
 
 ## Version Validity
 
@@ -339,4 +346,3 @@ MODEL_DIR=/path/to/release_model \
 For gating, avoid parsing the stdout table. Prefer reading the JSON written
 under `--output_path`, or use the Python API example to write a fixed JSON path
 and apply thresholds from a small CI script.
-

@@ -8,8 +8,10 @@ with `lm-evaluation-harness`.
 - Shell scripts: [scripts/](scripts/)
 - Python API example: [python/simple_eval_modelopt_hf.py](python/simple_eval_modelopt_hf.py)
 - Fixed sample example: [config/sample_indices.json](config/sample_indices.json)
+- Bash command cookbook:
+  [中文](docs/modelopt-checkpoint-eval-commands.zh-CN.md) /
+  [English](docs/modelopt-checkpoint-eval-commands.en.md)
 
 The examples focus on single-process CI/CD usage. The `vllm` and `sglang`
 examples use their offline engines through `lm-eval`; they do not start a
 separate OpenAI-compatible server.
-

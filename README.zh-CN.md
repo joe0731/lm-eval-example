@@ -16,6 +16,9 @@ lm-eval-example/
   README.en.md
   config/
     sample_indices.json
+  docs/
+    modelopt-checkpoint-eval-commands.zh-CN.md
+    modelopt-checkpoint-eval-commands.en.md
   python/
     simple_eval_modelopt_hf.py
   scripts/
@@ -25,6 +28,10 @@ lm-eval-example/
     run_modelopt_matrix.sh
     validate_tasks.sh
 ```
+
+命令 cookbook：
+
+- [ModelOpt checkpoint eval bash 示例](docs/modelopt-checkpoint-eval-commands.zh-CN.md)
 
 ## 版本有效性说明
 
@@ -314,4 +321,3 @@ MODEL_DIR=/path/to/release_model \
 ```
 
 CI 门禁建议不要直接解析 stdout 表格。更稳的做法是读取 `--output_path` 下的 JSON，或者使用 Python API 脚本直接写固定路径 JSON，再用阈值脚本判断是否失败。
-
