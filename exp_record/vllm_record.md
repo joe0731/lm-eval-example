@@ -192,12 +192,18 @@ Use `modelopt_fp4` for this checkpoint. `modelopt` is commonly used for ModelOpt
 
 This checkpoint is multimodal and resolves to `Gemma4ForConditionalGeneration`. Text-only prompts work through the normal chat template.
 
-The model card shows a server example with tensor parallel size 8:
+Full server command for the local checkpoint:
 
 ```bash
-vllm serve /models/gemma-4-31b-it-nvfp4 \
-  --quantization modelopt \
-  --tensor-parallel-size 8
+vllm serve artifacts/models/Gemma-4-31B-IT-NVFP4 \
+  --quantization modelopt_fp4 \
+  --tensor-parallel-size 8 \
+  --dtype auto \
+  --trust-remote-code \
+  --gpu-memory-utilization 0.85 \
+  --max-model-len 4096 \
+  --host 0.0.0.0 \
+  --port 8000
 ```
 
 In this local vLLM `0.19.1` environment, offline inference worked with single-GPU `quantization="modelopt_fp4"`.
@@ -219,13 +225,7 @@ After each smoke test the temporary Gemma engine shut down. Final `nvidia-smi` s
 
 ## lm-eval Status
 
-The repository contains scripts such as:
-
-```bash
-scripts/run_vllm_modelopt.sh
-```
-
-But the current Python environment does not have `lm_eval` installed:
+The current Python environment does not have `lm_eval` installed:
 
 ```text
 lm-eval: command not found
@@ -234,17 +234,17 @@ ModuleNotFoundError: No module named 'lm_eval'
 
 So the completed validation is vLLM load plus generation smoke test, not an `lm-eval` benchmark run.
 
-When `lm_eval` is available, a small smoke command should look like:
+When `lm_eval` is available, run the smoke test with the expanded command line below. This is the direct form of the vLLM backend invocation; it does not rely on repository wrapper scripts.
 
 ```bash
-MODEL_DIR=artifacts/models/Gemma-4-31B-IT-NVFP4 \
-VLLM_QUANTIZATION=modelopt_fp4 \
-TASKS=arc_challenge \
-LIMIT=1 \
-TP_SIZE=1 \
-MAX_MODEL_LEN=4096 \
-OUTPUT_DIR=artifacts/eval/vllm-gemma4-nvfp4-smoke \
-./scripts/run_vllm_modelopt.sh
+lm-eval run \
+  --model vllm \
+  --model_args pretrained=artifacts/models/Gemma-4-31B-IT-NVFP4,dtype=auto,trust_remote_code=True,tensor_parallel_size=1,data_parallel_size=1,gpu_memory_utilization=0.85,max_model_len=4096,quantization=modelopt_fp4 \
+  --tasks arc_challenge \
+  --batch_size auto \
+  --num_fewshot 0 \
+  --limit 1 \
+  --output_path artifacts/eval/vllm-gemma4-nvfp4-smoke
 ```
 
 ## Checklist For Next Run
