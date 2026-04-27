@@ -11,6 +11,9 @@ with `lm-evaluation-harness`.
 - Bash command cookbook:
   [中文](docs/modelopt-checkpoint-eval-commands.zh-CN.md) /
   [English](docs/modelopt-checkpoint-eval-commands.en.md)
+- Qwen3.5 ModelOpt scenario:
+  [中文](docs/qwen35-modelopt-scenario.zh-CN.md) /
+  [English](docs/qwen35-modelopt-scenario.en.md)
 
 The examples focus on single-process CI/CD usage. The `vllm` and `sglang`
 examples use their offline engines through `lm-eval`; they do not start a
