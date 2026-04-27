@@ -7,6 +7,27 @@
 - SGLang backend：吞吐更好，适合 SGLang 支持的 ModelOpt 量化 checkpoint。
 - Python API：适合 ModelOpt 产物不能直接 `from_pretrained()`，需要自定义 restore 的场景。
 
+## 当前结论
+
+如果目标是把 ModelOpt 量化后的 checkpoint 接入 CI/CD，推荐默认使用 `lm-eval --model vllm` 的单进程 offline engine 路径，而不是单独启动 vLLM/SGLang server。
+
+实际优先级：
+
+1. `bf16/fp16`：用作 baseline，可走 `hf` 或 `vllm`。
+2. `fp8`：优先 `vllm`，通常使用 `quantization=modelopt`。
+3. `int8_awq`：优先 `vllm`，通常使用 `quantization=awq`。
+4. `nvfp4`：优先 `vllm`，通常使用 `quantization=modelopt_fp4`。
+5. `sglang`：作为第二 backend，需要按模型和版本先做 smoke。
+6. `hf`：只适合 Transformers 能直接加载的 ModelOpt 产物，不应作为 NVFP4 这类预量化格式的默认路径。
+
+当前实际记录显示，ModelOpt NVFP4 产物更可靠的链路是：
+
+```text
+inspect checkpoint -> vLLM smoke -> vLLM CI smoke -> vLLM nightly/release
+```
+
+不要用 `ignore_mismatched_sizes=True` 绕过 HF 加载失败做评测，这会让 benchmark 失真。
+
 ## 目录结构
 
 ```text

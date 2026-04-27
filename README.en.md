@@ -8,6 +8,32 @@ model artifacts and CI/CD usage.
 - SGLang backend: higher throughput for SGLang-supported ModelOpt checkpoints.
 - Python API: useful when your ModelOpt artifact requires a custom restore path.
 
+## Current Conclusion
+
+For CI/CD evaluation of ModelOpt quantized checkpoints, default to the
+single-process `lm-eval --model vllm` offline engine path instead of starting a
+separate vLLM or SGLang server.
+
+Practical priority:
+
+1. `bf16/fp16`: use as baseline through `hf` or `vllm`.
+2. `fp8`: prefer `vllm`, usually with `quantization=modelopt`.
+3. `int8_awq`: prefer `vllm`, usually with `quantization=awq`.
+4. `nvfp4`: prefer `vllm`, usually with `quantization=modelopt_fp4`.
+5. `sglang`: use as a second backend only after a model/version smoke test.
+6. `hf`: use only when Transformers can directly load the ModelOpt artifact; it
+   should not be the default path for pre-quantized formats such as NVFP4.
+
+The current recorded experiment points to this reliable path for ModelOpt NVFP4
+artifacts:
+
+```text
+inspect checkpoint -> vLLM smoke -> vLLM CI smoke -> vLLM nightly/release
+```
+
+Do not use `ignore_mismatched_sizes=True` to bypass HF loading failures for
+benchmarking because it can invalidate the result.
+
 ## Layout
 
 ```text

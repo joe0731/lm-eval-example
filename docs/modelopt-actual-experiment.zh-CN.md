@@ -9,6 +9,14 @@
 
 ## 实验结论先行
 
+面向 CI/CD 的实际结论是：把 vLLM offline backend 作为 ModelOpt 预量化产物的主路径，把 HF 作为能直接加载时的 reference，把 SGLang 作为通过 smoke 后的第二 backend。这样可以保持单进程执行，不需要维护额外 server，也能把失败点限定在 checkpoint、backend 支持或 benchmark 本身。
+
+推荐执行链路：
+
+```text
+inspect checkpoint -> one-sample smoke -> fixed-task CI smoke -> nightly/release comparison
+```
+
 对 ModelOpt 预量化产物，实际优先路径通常是：
 
 | 产物格式 | 推荐 backend | 典型量化参数 |

@@ -10,6 +10,19 @@ checkpoints into a repeatable, comparable, CI-friendly evaluation workflow:
 
 ## Main Takeaways
 
+The practical CI/CD conclusion is to use the vLLM offline backend as the primary
+path for ModelOpt pre-quantized artifacts, keep HF as a reference path only when
+it can directly load the artifact, and treat SGLang as a second backend after a
+model/version smoke test. This keeps execution single-process, avoids a separate
+server, and makes failures attributable to checkpoint metadata, backend support,
+or the benchmark itself.
+
+Recommended execution chain:
+
+```text
+inspect checkpoint -> one-sample smoke -> fixed-task CI smoke -> nightly/release comparison
+```
+
 For ModelOpt pre-quantized artifacts, the practical default path is usually:
 
 | Artifact format | Recommended backend | Typical quantization argument |
